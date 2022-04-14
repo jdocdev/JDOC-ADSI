@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Solicitud;
 
 class SolicitudController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver_solicitud | crear_solicitud | editar_solicitud | borrar_solicitud', ['only'=>['index']]);
+        $this->middleware('permission:crear_solicitud', ['only'=>['create','store']]);
+        $this->middleware('permission:editar_solicitud', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar_solicitud', ['only'=>['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,8 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        //
+        $solicitudes = Solicitud::pagiante(10);
+        return view('solicitudes.index', compact('solicitudes'));
     }
 
     /**
@@ -23,7 +34,7 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        //
+        return view('solicitudes.crear');
     }
 
     /**
@@ -34,7 +45,16 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'fecha_solicitud' => 'required',
+            'titulo_solicitud' => 'required',
+            'descripcion_solicitud' => 'required',
+            'id_categoria_solicitud' => 'required',
+            'id_producto_solicitud' => 'required',
+            'cedula_usuario_solicitud' => 'required'
+        ]);
+        Solicitud::create($request->all());
+        return redirect()->route('solicitudes.index');
     }
 
     /**
@@ -54,9 +74,9 @@ class SolicitudController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Solicitud $solicitud)
     {
-        //
+        return view('solicitudes.editar', compact('solicitud'));
     }
 
     /**
@@ -66,9 +86,18 @@ class SolicitudController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Solicitud $solicitud)
     {
-        //
+        request()->validate([
+            'fecha_solicitud' => 'required',
+            'titulo_solicitud' => 'required',
+            'descripcion_solicitud' => 'required',
+            'id_categoria_solicitud' => 'required',
+            'id_producto_solicitud' => 'required',
+            'cedula_usuario_solicitud' => 'required'
+        ]);
+        $solicitud->update($request->all());
+        return redirect()->route('solicitudes.index');
     }
 
     /**
@@ -77,8 +106,9 @@ class SolicitudController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Solicitud $solicitud)
     {
-        //
+        $solicitud->delete();
+        return redirect()->route('solicitudes.index');
     }
 }

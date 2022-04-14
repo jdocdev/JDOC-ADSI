@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //Agregando el usuario super-admin
+        Gate::before(function ($user, $ability){
+            return $user->email == 'jdortiz@misena.edu.co' ?? null;
+        });
     }
 }

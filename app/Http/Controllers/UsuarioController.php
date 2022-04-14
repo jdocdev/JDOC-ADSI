@@ -113,6 +113,9 @@ class UsuarioController extends Controller
         $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('roles'));
+        return redirect()->route('usuarios.index');
     }
 
     /**
@@ -123,6 +126,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->delete();
+        return redirect()->route('usuarios.index');
     }
 }

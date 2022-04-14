@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver_categoria | crear_categoria | editar_categoria | borrar_categoria', ['only'=>['index']]);
+        $this->middleware('permission:crear_categoria', ['only'=>['create','store']]);
+        $this->middleware('permission:editar_categoria', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar_categoria', ['only'=>['destroy']]);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categoria::pagiante(10);
+        return view('categorias.index', compact('categorias'));
     }
 
     /**
@@ -23,7 +34,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('categorias.crear');
     }
 
     /**
@@ -34,7 +45,12 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'nombre_categoria' => 'required',
+            'descripcion_categoria' => 'required'
+        ]);
+        Categoria::create($request->all());
+        return redirect()->route('categorias.index');
     }
 
     /**
@@ -54,9 +70,9 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Categoria $categoria)
     {
-        //
+        return view('categorias.editar', compact('categoria'));
     }
 
     /**
@@ -66,9 +82,14 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Categoria $categoria)
     {
-        //
+        request()->validate([
+            'nombre_categoria' => 'required',
+            'descripcion_categoria' => 'required'
+        ]);
+        $categoria->update($request->all());
+        return redirect()->route('categorias.index');
     }
 
     /**
@@ -77,8 +98,9 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
+        return redirect()->route('categorias.index');
     }
 }
