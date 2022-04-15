@@ -10,10 +10,10 @@ class CategoriaController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:ver_categoria | crear_categoria | editar_categoria | borrar_categoria', ['only'=>['index']]);
-        $this->middleware('permission:crear_categoria', ['only'=>['create','store']]);
-        $this->middleware('permission:editar_categoria', ['only'=>['edit','update']]);
-        $this->middleware('permission:borrar_categoria', ['only'=>['destroy']]);
+        $this->middleware('permission:ver-categoria|crear-categoria|editar-categoria|borrar-categoria')->only('index');
+        $this->middleware('permission:crear-categoria', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-categoria', ['only' => ['edit','update']]);
+        $this->middleware('permission:borrar-categoria', ['only' => ['destroy']]);
     }
     
     /**
@@ -22,9 +22,9 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $categorias = Categoria::pagiante(10);
-        return view('categorias.index', compact('categorias'));
+    {        
+        $categorias = Categoria::paginate(10);
+        return view('categorias.index',compact('categorias'));
     }
 
     /**
@@ -100,7 +100,7 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        $categoria->delete();
+        $categoria->delete();    
         return redirect()->route('categorias.index');
     }
 }

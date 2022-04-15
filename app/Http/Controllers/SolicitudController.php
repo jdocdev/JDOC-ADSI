@@ -10,10 +10,10 @@ class SolicitudController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:ver_solicitud | crear_solicitud | editar_solicitud | borrar_solicitud', ['only'=>['index']]);
-        $this->middleware('permission:crear_solicitud', ['only'=>['create','store']]);
-        $this->middleware('permission:editar_solicitud', ['only'=>['edit','update']]);
-        $this->middleware('permission:borrar_solicitud', ['only'=>['destroy']]);
+        $this->middleware('permission:ver-solicitud|crear-solicitud|editar-solicitud|borrar-solicitud')->only('index');
+        $this->middleware('permission:crear-solicitud', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-solicitud', ['only' => ['edit','update']]);
+        $this->middleware('permission:borrar-solicitud', ['only' => ['destroy']]);
     }
 
     /**
@@ -23,8 +23,8 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $solicitudes = Solicitud::pagiante(10);
-        return view('solicitudes.index', compact('solicitudes'));
+        $solicitudes = Solicitud::paginate(10);
+        return view('solicitudes.index',compact('solicitudes'));
     }
 
     /**
@@ -51,7 +51,7 @@ class SolicitudController extends Controller
             'descripcion_solicitud' => 'required',
             'id_categoria_solicitud' => 'required',
             'id_producto_solicitud' => 'required',
-            'cedula_usuario_solicitud' => 'required'
+            'id_usuario_solicitud' => 'required'
         ]);
         Solicitud::create($request->all());
         return redirect()->route('solicitudes.index');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Producto;
 
 class ProductoController extends Controller
@@ -10,10 +11,10 @@ class ProductoController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:ver-producto | crear-producto | editar-producto | borrar-producto', ['only'=>['index']]);
-        $this->middleware('permission:crear-producto', ['only'=>['create','store']]);
-        $this->middleware('permission:editar-producto', ['only'=>['edit','update']]);
-        $this->middleware('permission:borrar-producto', ['only'=>['destroy']]);
+         $this->middleware('permission:ver-producto|crear-producto|editar-producto|borrar-producto')->only('index');
+         $this->middleware('permission:crear-producto', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-producto', ['only' => ['edit','update']]);
+         $this->middleware('permission:borrar-producto', ['only' => ['destroy']]);
     }
     
     /**
@@ -23,7 +24,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::pagiante(10);
+        $productos = Producto::paginate(10);
         return view('productos.index', compact('productos'));
     }
 

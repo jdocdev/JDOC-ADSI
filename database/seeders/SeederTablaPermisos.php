@@ -19,6 +19,11 @@ class SeederTablaPermisos extends Seeder
         //Spatie Permission
         $permisos = [
             //tabla roles
+            'ver-usuario',
+            'crear-usuario',
+            'editar-usuario',
+            'borrar-usuario',
+            //tabla roles
             'ver-rol',
             'crear-rol',
             'editar-rol',

@@ -1,5 +1,5 @@
 <li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
-    <a class="nav-link" href="/">
+    <a class="nav-link" href="/home">
         <i class=" fas fa-house-user"></i><span>Inicio</span>
     </a>
     <a class="nav-link" href="/roles">
@@ -8,7 +8,7 @@
     <a class="nav-link" href="/usuarios">
         <i class=" fas fa-users"></i><span>Usuarios</span>
     </a>
-    <a class="nav-link" href="/categorías">
+    <a class="nav-link" href="/categorias">
         <i class=" fas fa-shapes"></i><span>Categorías</span>
     </a>
     <a class="nav-link" href="/productos">

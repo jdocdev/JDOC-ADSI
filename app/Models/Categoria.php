@@ -9,5 +9,6 @@ class Categoria extends Model
 {
     use HasFactory;
     //AQUI AGREGAMOS LOS CAMPOS DE LA TABLA CATEGORIA
-    protected $file = ['nombre_categoria','descripcion_categoria'];
+    protected $fillable = ['nombre_categoria','descripcion_categoria'];
+    protected $table = 'categorias';
 }

@@ -15,6 +15,15 @@ use Illuminate\Support\Arr;
 
 class UsuarioController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver_usuario | crear_usuario | editar_usuario | borrar_usuario', ['only'=>['index']]);
+        $this->middleware('permission:crear_usuario', ['only'=>['create','store']]);
+        $this->middleware('permission:editar_usuario', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar_usuario', ['only'=>['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +42,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        Role::pluck('name','name')->all();
+        $roles = Role::pluck('name','name')->all();
         return view('usuarios.crear', compact('roles'));
     }
 
@@ -47,7 +56,7 @@ class UsuarioController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
@@ -84,7 +93,7 @@ class UsuarioController extends Controller
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
 
-        return view('usuarios.editar', compact('user','roles','userRoles'));
+        return view('usuarios.editar', compact('user','roles','userRole'));
     }
 
     /**
@@ -98,7 +107,7 @@ class UsuarioController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);

@@ -9,5 +9,6 @@ class Producto extends Model
 {
     use HasFactory;
     //AQUI AGREGAMOS LOS CAMPOS DE LA TABLA PRODUCTO
-    protected $file = ['nombre_producto','descripcion_producto','multimedia_producto','id_categoria_producto'];
+    protected $fillable = ['nombre_producto','descripcion_producto','multimedia_producto','id_categoria_producto'];
+    protected $table = 'productos';
 }
