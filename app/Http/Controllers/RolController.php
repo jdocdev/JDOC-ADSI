@@ -14,7 +14,7 @@ class RolController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:ver-rol|crear-rol|editar-rol|borrar-rol', ['only' => ['index']]);
+         $this->middleware('permission:ver-rol|crear-rol|editar-rol|borrar-rol')->only('index');
          $this->middleware('permission:crear-rol', ['only' => ['create','store']]);
          $this->middleware('permission:editar-rol', ['only' => ['edit','update']]);
          $this->middleware('permission:borrar-rol', ['only' => ['destroy']]);
@@ -27,7 +27,7 @@ class RolController extends Controller
     public function index(Request $request)
     {        
          //Con paginación
-         $roles = Role::paginate(5);
+         $roles = Role::paginate(10);
          return view('roles.index',compact('roles'));
          //al usar esta paginacion, recordar poner en el el index.blade.php este codigo  {!! $roles->links() !!} 
     }

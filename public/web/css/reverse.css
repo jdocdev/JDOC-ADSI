@@ -1,3 +1,12 @@
+:root{
+  --primary-dark:#000a12;
+  --primary:#263238;
+  --primary-light:#4f5b62;
+  --secondary-dark:#c7b800;
+  --secondary:#ffea00;
+  --secondary-light:#ffff56;
+}
+
 body.skin-reverse.sidebar-mini .main-sidebar:after {
   background-color: color(primary); }
 

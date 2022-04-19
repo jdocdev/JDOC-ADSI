@@ -18,10 +18,10 @@ class UsuarioController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:ver_usuario | crear_usuario | editar_usuario | borrar_usuario', ['only'=>['index']]);
-        $this->middleware('permission:crear_usuario', ['only'=>['create','store']]);
-        $this->middleware('permission:editar_usuario', ['only'=>['edit','update']]);
-        $this->middleware('permission:borrar_usuario', ['only'=>['destroy']]);
+        $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario')->only('index');
+        $this->middleware('permission:crear-usuario', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-usuario', ['only' => ['edit','update']]);
+        $this->middleware('permission:borrar-usuario', ['only' => ['destroy']]);
     }
 
     /**

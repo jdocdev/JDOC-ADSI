@@ -1,3 +1,4 @@
-<div class="footer-left">
-    All rights reserved &copy; {{ date('Y') }}
+<div class="simple-footer">
+    Ingeniería y Construcciones s.a.s <br/>
+    JDOC &copy; {{ date('Y') }}
 </div>

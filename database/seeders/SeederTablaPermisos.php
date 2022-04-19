@@ -44,6 +44,7 @@ class SeederTablaPermisos extends Seeder
             'editar-solicitud',
             'borrar-solicitud',
         ];
+        
         foreach($permisos as $permiso){
             Permission::create(['name'=>$permiso]);
         }
